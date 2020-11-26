@@ -1,5 +1,6 @@
-var express = require("express");
-var db = require("../../../db/db.json");
+const express = require("express");
+const db = require("../../../db/db.json");
+const fs = require("fs");
 
 
 
@@ -13,9 +14,7 @@ app.use(express.json());
 // Create our server
 var server = http.createServer(handleRequest);
 
-server.listen(PORT, function () {
-    console.log("Server is listening on PORT: " + PORT);
-})
+
 // Create a function for handling the requests and responses coming into our server
 function handleRequest(req, res) {
     var path = req.url;
@@ -32,8 +31,7 @@ function handleRequest(req, res) {
                 res.writeHead(200, { "Content-Type": "text/html" });
                 res.end(data);
             });
-
-
+            
         case "*":
 
             fs.readFile(__dirname + "/index.html", function (err, data) {
@@ -55,12 +53,17 @@ function handleRequest(req, res) {
 
     };
 }
+
+app.get("/notes", function(req, res) {
+    res.sendFile(path.join(__dirname, "../../notes.html" ));
+  });
+
 app.get("/api/notes", function (req, res) {
     return res.json(notes);
 });
 
 //   app.get(db, function(req, res) {
-//     var chosen = req.params.character;
+//     var chosen = req.params.cha;
 
 //     console.log(chosen);
 
@@ -81,9 +84,11 @@ app.post("/api/notes", function (req, res) {
 
     console.log(newNote);
 
-    characters.push(newNote);
+    db.push(newNote);
 
     res.json(newNote);
 });
     // Starts our server
-
+    server.listen(PORT, function () {
+        console.log("Server is listening on PORT: " + PORT);
+    })
