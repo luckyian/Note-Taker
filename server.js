@@ -29,10 +29,7 @@ app.use(express.json());
 require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
-// =============================================================================
-// LISTENER
-// The below code effectively "starts" our server
-// =============================================================================
+
 
 app.get("/", function(req, res) {
   connection.query("SELECT * FROM notes;", function(err, data) {
@@ -44,9 +41,9 @@ app.get("/", function(req, res) {
   });
 });
 
-// Create a new plan
+// Create a new note
 app.post("/api/notes", function(req, res) {
-  connection.query("INSERT INTO notes (plan) VALUES (?)", [req.body.notes], function(err, result) {
+  connection.query("INSERT INTO notes (note) VALUES (?)", [req.body.notes], function(err, result) {
     if (err) {
       return res.status(500).end();
     }
@@ -73,9 +70,9 @@ app.put("/api/notes/:id", function(req, res) {
   });
 });
 
-// Delete a plan
-app.delete("/api/movies/:id", function(req, res) {
-  connection.query("DELETE FROM movies WHERE id = ?", [req.params.id], function(err, result) {
+// Delete a note
+app.delete("/api/notes/:id", function(req, res) {
+  connection.query("DELETE FROM notes WHERE id = ?", [req.params.id], function(err, result) {
     if (err) {
       // If an error occurred, send a generic server failure
       return res.status(500).end();
@@ -88,6 +85,11 @@ app.delete("/api/movies/:id", function(req, res) {
 
   });
 });
+
+// =============================================================================
+// LISTENER
+// The below code effectively "starts" our server
+// =============================================================================
 
 app.listen(PORT, function() {
   console.log("App listening on PORT: " + PORT);
