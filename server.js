@@ -32,9 +32,6 @@ require("./routes/htmlRoutes")(app);
 
 
 
-// Create a new note
-
-
 // =============================================================================
 // LISTENER
 // The below code effectively "starts" our server
