@@ -38,13 +38,16 @@ module.exports = function (app) {
             } catch (err) {
                 allNotes = [];
             }
-            const lastId = allNotes[allNotes.length - 1].id;
+            let lastId = allNotes[allNotes.length - 1].id;
+            console.log(lastId);
             lastId++;
 
             const newFile = { ...req.body, id: lastId };
             const combinedNotes = [...allNotes, newFile]
             fs.writeFile("./db/db.json", JSON.stringify(combinedNotes), (err) => {
+                if (err) throw err;
                 console.log("Created new note!");
+                res.json({ success: true, msg: 'Created new note' });
             })
         });
     });
