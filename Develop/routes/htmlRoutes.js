@@ -13,6 +13,7 @@ module.exports = function (app) {
     res.sendFile(path.join(__dirname, '../public/index.html'));
   });
 
+  // Going to an empty page redirects to index.html
   app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '../public/index.html'));
   });
